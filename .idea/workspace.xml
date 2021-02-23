@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="dd24058b-4b11-47e5-ab0f-3437292c0b86" name="Default" comment="tfrecord生成路径等默认信息更改" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/FPN_v18$train1.coverage" NAME="train1 Coverage Results" MODIFIED="1512385794704" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v1$inference.coverage" NAME="inference Coverage Results" MODIFIED="1506664254564" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v18$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1510829065387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v18$eval1.coverage" NAME="eval1 Coverage Results" MODIFIED="1510838645568" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v18$coordinate_convert.coverage" NAME="coordinate_convert Coverage Results" MODIFIED="1510217518879" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/box_utils" />
+    <SUITE FILE_PATH="coverage/FPN_v1$make_anchor.coverage" NAME="make_anchor Coverage Results" MODIFIED="1506596353795" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/box_utils" />
+    <SUITE FILE_PATH="coverage/FPN_v18$cfgs6.coverage" NAME="cfgs6 Coverage Results" MODIFIED="1510802483608" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/configs" />
+    <SUITE FILE_PATH="coverage/FPN_v21$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1515568671895" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v1$anchor_utils_pyfunc.coverage" NAME="anchor_utils_pyfunc Coverage Results" MODIFIED="1506596188913" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/box_utils" />
+    <SUITE FILE_PATH="coverage/FPN_v18$train.coverage" NAME="train Coverage Results" MODIFIED="1511153461832" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v1$train.coverage" NAME="train Coverage Results" MODIFIED="1506660094058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v21$test.coverage" NAME="test Coverage Results" MODIFIED="1512646259990" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v21$coordinate_convert.coverage" NAME="coordinate_convert Coverage Results" MODIFIED="1513503407252" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/box_utils" />
+    <SUITE FILE_PATH="coverage/FPN_v18$inference1.coverage" NAME="inference1 Coverage Results" MODIFIED="1510821339369" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v18$make_anchor.coverage" NAME="make_anchor Coverage Results" MODIFIED="1511011931872" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/box_utils" />
+    <SUITE FILE_PATH="coverage/FPN_v21$inference1.coverage" NAME="inference1 Coverage Results" MODIFIED="1512640196193" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v21$shapan_demo1.coverage" NAME="shapan_demo1 Coverage Results" MODIFIED="1515579559026" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v18$convert_data_to_tfrecord.coverage" NAME="convert_data_to_tfrecord Coverage Results" MODIFIED="1510832281054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/io" />
+    <SUITE FILE_PATH="coverage/FPN_v18$inference.coverage" NAME="inference Coverage Results" MODIFIED="1510142327317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v21$shapan_utils.coverage" NAME="shapan_utils Coverage Results" MODIFIED="1515833128946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v18$test.coverage" NAME="test Coverage Results" MODIFIED="1510731146580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v18$eval.coverage" NAME="eval Coverage Results" MODIFIED="1511067020527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v21$demo1.coverage" NAME="demo1 Coverage Results" MODIFIED="1514185839876" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v1$test.coverage" NAME="test Coverage Results" MODIFIED="1506663674994" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/FPN_v1$show_box_in_tensor.coverage" NAME="show_box_in_tensor Coverage Results" MODIFIED="1506563460959" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/box_utils" />
+    <SUITE FILE_PATH="coverage/FPN_v21$help_utils.coverage" NAME="help_utils Coverage Results" MODIFIED="1514101275634" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/help_utils" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="FPN_v1" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1kjVizG0A5T9TJURBsf0OPugsHq" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://E:/yangxue/FPN_v21/tools/test.py" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../R2CNN-DFPN_RPN_HEAD_AROI" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\yangxue\Documents\GitHub\R2CNN_HEAD_FPN_Tensorflow\libs\box_utils" />
+      <recent name="E:\yangxue\FPN_v21\data\io" />
+      <recent name="E:\yangxue\FPN_v21\tools" />
+      <recent name="E:\yangxue\FPN_v21\tools\inference_image" />
+      <recent name="E:\yangxue\FPN_v21\libs" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\ideaWorkPlace\Pycharm\graduation_project" />
+      <recent name="D:\ideaWorkPlace\Pycharm\R2CNN-DFPN_RPN_HEAD_AROI\libs\box_utils" />
+      <recent name="$PROJECT_DIR$/output" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.train">
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="FPN_v1" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration name="convert_data_to_tfrecord" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="R2CNN_HEAD" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data/io" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/io/convert_data_to_tfrecord.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="divide_data" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="R2CNN_HEAD" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data/io" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/io/divide_data.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="inference" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="R2CNN_HEAD" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tools" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tools/inference.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="setup" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="R2CNN_HEAD" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/libs/box_utils" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/libs/box_utils/setup.py" />
+      <option name="PARAMETERS" value="build_ext --inplace" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="R2CNN_HEAD" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tools" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tools/train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.inference" />
+      <item itemvalue="Python.divide_data" />
+      <item itemvalue="Python.convert_data_to_tfrecord" />
+      <item itemvalue="Python.train" />
+      <item itemvalue="Python.setup" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.train" />
+        <item itemvalue="Python.convert_data_to_tfrecord" />
+        <item itemvalue="Python.inference" />
+        <item itemvalue="Python.setup" />
+        <item itemvalue="Python.divide_data" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dd24058b-4b11-47e5-ab0f-3437292c0b86" name="Default" comment="" />
+      <created>1506477841082</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1506477841082</updated>
+      <workItem from="1606214124408" duration="43000" />
+      <workItem from="1606289665134" duration="3150000" />
+      <workItem from="1606567072934" duration="3390000" />
+      <workItem from="1606629812750" duration="19392000" />
+      <workItem from="1606713618646" duration="13374000" />
+      <workItem from="1606730000364" duration="3144000" />
+      <workItem from="1606791389918" duration="21716000" />
+      <workItem from="1606831381878" duration="1072000" />
+      <workItem from="1606885516839" duration="7765000" />
+      <workItem from="1606974178232" duration="5870000" />
+      <workItem from="1607145655943" duration="7377000" />
+      <workItem from="1607243385884" duration="885000" />
+      <workItem from="1607323165301" duration="9112000" />
+      <workItem from="1607403434710" duration="18038000" />
+      <workItem from="1607438664332" duration="660000" />
+      <workItem from="1607491247587" duration="17961000" />
+      <workItem from="1607569598974" duration="1846000" />
+      <workItem from="1607575303470" duration="14868000" />
+      <workItem from="1607613807650" duration="2652000" />
+      <workItem from="1607663410533" duration="2386000" />
+      <workItem from="1611239313274" duration="1920000" />
+      <workItem from="1611301556511" duration="620000" />
+      <workItem from="1613628400532" duration="7771000" />
+      <workItem from="1613637461280" duration="2179000" />
+      <workItem from="1613640339447" duration="16045000" />
+      <workItem from="1614091926584" duration="1410000" />
+    </task>
+    <task id="LOCAL-00001" summary="数据集标注格式转换文件注释">
+      <created>1606569996231</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1606569996231</updated>
+    </task>
+    <task id="LOCAL-00002" summary="解决Windows系统下Fast RCNN相关cpp文件无法编译的问题！！！！！！【花了两天半的时间！！！】">
+      <created>1606818443814</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1606818443815</updated>
+    </task>
+    <task id="LOCAL-00003" summary="【修改指南】Windows系统下Fast RCNN相关cpp文件编译的问题">
+      <created>1606818644246</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1606818644246</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add a declaration of this repository">
+      <created>1606983112464</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1606983112464</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add a declaration of this repository">
+      <created>1606983207983</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1606983207983</updated>
+    </task>
+    <task id="LOCAL-00006" summary="add a declaration of this repository">
+      <created>1606983318107</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1606983318107</updated>
+    </task>
+    <task id="LOCAL-00007" summary="inference.py载入模型，得到测试结果">
+      <created>1607157001408</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1607157001408</updated>
+    </task>
+    <task id="LOCAL-00008" summary="添加HRSC2016数据集标注文件的格式转换工具">
+      <created>1607426250493</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1607426250493</updated>
+    </task>
+    <task id="LOCAL-00009" summary="修改标注文件的格式转换工具【加入图片剪裁功能】">
+      <created>1607569722852</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1607569722852</updated>
+    </task>
+    <task id="LOCAL-00010" summary="对制作好的数据集进行train、test划分">
+      <created>1607588070573</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1607588070573</updated>
+    </task>
+    <task id="LOCAL-00011" summary="重新配置gpu-tensorflow【之前一直使用的cpu进行训练】，恰好解决了图片中出现重复的选择预测现象">
+      <created>1607588248128</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1607588248128</updated>
+    </task>
+    <task id="LOCAL-00012" summary="tfrecord生成路径等默认信息更改">
+      <created>1607615861046</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1607615861047</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="1">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$/../graduation_project/R2CNN-DFPN_RPN_HEAD_AROI" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+    <MESSAGE value="数据集标注格式转换文件注释" />
+    <MESSAGE value="解决Windows系统下Fast RCNN相关cpp文件无法编译的问题！！！！！！【花了两天半的时间！！！】" />
+    <MESSAGE value="【修改指南】Windows系统下Fast RCNN相关cpp文件编译的问题" />
+    <MESSAGE value="add a declaration of this repository" />
+    <MESSAGE value="inference.py载入模型，得到测试结果" />
+    <MESSAGE value="添加HRSC2016数据集标注文件的格式转换工具" />
+    <MESSAGE value="修改标注文件的格式转换工具【加入图片剪裁功能】" />
+    <MESSAGE value="对制作好的数据集进行train、test划分" />
+    <MESSAGE value="重新配置gpu-tensorflow【之前一直使用的cpu进行训练】，恰好解决了图片中出现重复的选择预测现象" />
+    <MESSAGE value="tfrecord生成路径等默认信息更改" />
+    <option name="LAST_COMMIT_MESSAGE" value="tfrecord生成路径等默认信息更改" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../graduation_project/R2CNN-DFPN_RPN_HEAD_AROI/libs/box_utils/anchor_utils_pyfunc.py</url>
+          <line>120</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../graduation_project/R2CNN-DFPN_RPN_HEAD_AROI/data/io/convert_data_to_tfrecord.py</url>
+          <line>84</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../graduation_project/R2CNN-DFPN_RPN_HEAD_AROI/data/io/convert_data_to_tfrecord.py</url>
+          <line>1</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../graduation_project/R2CNN-DFPN_RPN_HEAD_AROI/libs/box_utils/coordinate_convert.py</url>
+          <line>70</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../graduation_project/R2CNN-DFPN_RPN_HEAD_AROI/tools/demo.py</url>
+          <line>367</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../graduation_project/R2CNN-DFPN_RPN_HEAD_AROI/tools/shapan_utils.py</url>
+          <line>161</line>
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/R2CNN_DFPN_RPN_HEAD_AROI$coordinate_convert.coverage" NAME="coordinate_convert Coverage Results" MODIFIED="1606898299539" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/box_utils" />
+    <SUITE FILE_PATH="coverage/R2CNN_DFPN_RPN_HEAD_AROI$train.coverage" NAME="train Coverage Results" MODIFIED="1607614890723" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/R2CNN_DFPN_RPN_HEAD_AROI$shapan_utils.coverage" NAME="shapan_utils Coverage Results" MODIFIED="1606631744811" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/R2CNN_HEAD$train.coverage" NAME="train Coverage Results" MODIFIED="1613648830434" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/R2CNN_DFPN_RPN_HEAD_AROI$vif2xml.coverage" NAME="vif2xml Coverage Results" MODIFIED="1607411780732" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/io" />
+    <SUITE FILE_PATH="coverage/R2CNN_DFPN_RPN_HEAD_AROI$setup.coverage" NAME="setup Coverage Results" MODIFIED="1606814601201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/box_utils" />
+    <SUITE FILE_PATH="coverage/R2CNN_DFPN_RPN_HEAD_AROI$setup2.coverage" NAME="setup2 Coverage Results" MODIFIED="1606648032055" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/box_utils" />
+    <SUITE FILE_PATH="coverage/R2CNN_DFPN_RPN_HEAD_AROI$setup1.coverage" NAME="setup1 Coverage Results" MODIFIED="1606817663579" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/box_utils" />
+    <SUITE FILE_PATH="coverage/R2CNN_DFPN_RPN_HEAD_AROI$newsetup.coverage" NAME="newsetup Coverage Results" MODIFIED="1606813636672" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/box_utils" />
+    <SUITE FILE_PATH="coverage/R2CNN_DFPN_RPN_HEAD_AROI$divide_data.coverage" NAME="divide_data Coverage Results" MODIFIED="1607579805947" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/io" />
+    <SUITE FILE_PATH="coverage/R2CNN_HEAD$convert_data_to_tfrecord.coverage" NAME="convert_data_to_tfrecord Coverage Results" MODIFIED="1613648803770" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/io" />
+    <SUITE FILE_PATH="coverage/R2CNN_DFPN_RPN_HEAD_AROI$inference.coverage" NAME="inference Coverage Results" MODIFIED="1607664160319" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/R2CNN_HEAD$setup.coverage" NAME="setup Coverage Results" MODIFIED="1613637651594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/box_utils" />
+    <SUITE FILE_PATH="coverage/R2CNN_DFPN_RPN_HEAD_AROI$convert_data_to_tfrecord.coverage" NAME="convert_data_to_tfrecord Coverage Results" MODIFIED="1607597447366" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/io" />
+    <SUITE FILE_PATH="coverage/R2CNN_DFPN_RPN_HEAD_AROI$HRSC2VOC.coverage" NAME="HRSC2VOC Coverage Results" MODIFIED="1607578614650" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/io" />
+    <SUITE FILE_PATH="coverage/R2CNN_DFPN_RPN_HEAD_AROI$setup_cuda.coverage" NAME="setup_cuda Coverage Results" MODIFIED="1606651755520" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/box_utils" />
+    <SUITE FILE_PATH="coverage/R2CNN_HEAD$inference.coverage" NAME="inference Coverage Results" MODIFIED="1613642691688" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+  </component>
+</project>
