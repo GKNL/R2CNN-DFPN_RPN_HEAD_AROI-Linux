@@ -5,16 +5,7 @@
       <change afterPath="$PROJECT_DIR$/data/pretrained_weights/README.md" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/data/pretrained_weights/resnet_v1_101.ckpt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/data/pretrained_weights/resnet_v1_50.ckpt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/io/convert_data_to_tfrecord.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/io/convert_data_to_tfrecord.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/io/image_preprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/io/image_preprocess.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/io/read_tfrecord.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/io/read_tfrecord.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/box_utils/boxes_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/box_utils/boxes_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/box_utils/coordinate_convert.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/box_utils/coordinate_convert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/configs/cfgs.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/configs/cfgs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/label_name_dict/label_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/label_name_dict/label_dict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/networks/network_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/networks/network_factory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/rpn/build_rpn.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/rpn/build_rpn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tools/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/train.py" afterDir="false" />
     </list>
@@ -303,7 +294,7 @@
       <workItem from="1614091926584" duration="5369000" />
       <workItem from="1614140702010" duration="18785000" />
       <workItem from="1614179529144" duration="1347000" />
-      <workItem from="1614225533672" duration="4638000" />
+      <workItem from="1614225533672" duration="10894000" />
     </task>
     <task id="LOCAL-00001" summary="数据集标注格式转换文件注释">
       <created>1606569996231</created>
@@ -396,7 +387,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614093689874</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="some notes about train.py(load data, share net cfgs)">
+      <created>1614235638630</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1614235638630</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -463,7 +461,8 @@
     <MESSAGE value="重新配置gpu-tensorflow【之前一直使用的cpu进行训练】，恰好解决了图片中出现重复的选择预测现象" />
     <MESSAGE value="tfrecord生成路径等默认信息更改" />
     <MESSAGE value="moving repository from GKNL/R2CNN-DFPN_RPN_HEAD_AROI to GKNL/R2CNN-DFPN_RPN_HEAD_AROI-Linux" />
-    <option name="LAST_COMMIT_MESSAGE" value="moving repository from GKNL/R2CNN-DFPN_RPN_HEAD_AROI to GKNL/R2CNN-DFPN_RPN_HEAD_AROI-Linux" />
+    <MESSAGE value="some notes about train.py(load data, share net cfgs)" />
+    <option name="LAST_COMMIT_MESSAGE" value="some notes about train.py(load data, share net cfgs)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

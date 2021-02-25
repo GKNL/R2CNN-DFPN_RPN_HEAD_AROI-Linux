@@ -28,7 +28,7 @@ class RPN(object):
                  stride,  # 每一层Pi的步幅stride
                  level,
                  top_k_nms,
-                 share_head=False,  # head网络（获取网络输出内容的网络，利用之前提取的特征，head利用这些特征，做出预测）
+                 share_head=False,  # 模块间是否共享权重变量
                  rpn_nms_iou_threshold=0.7,
                  max_proposals_num=300,
                  rpn_iou_positive_threshold=0.7,
@@ -108,7 +108,7 @@ class RPN(object):
             return feature_maps_dict
 
     def build_dense_feature_pyramid(self):
-        '''
+        ''' 作者提出的DFPN
         reference: DenseNet
         build P2, P3, P4, P5, P6
         :return: multi-scale feature map
@@ -150,7 +150,7 @@ class RPN(object):
 
     def build_feature_pyramid(self):
 
-        '''
+        ''' 普通FPN
         reference: https://github.com/CharlesShang/FastMaskRCNN
         build P2, P3, P4, P5
         :return: multi-scale feature map
@@ -222,10 +222,10 @@ class RPN(object):
             with slim.arg_scope([slim.conv2d], weights_regularizer=slim.l2_regularizer(self.rpn_weight_decay)):
                 for level in self.level:
 
-                    if self.share_head:
+                    if self.share_head:  # 初始化P2模块各层权重变量，其他模块的相应层之间共享P2的变量
                         reuse_flag = None if level == 'P2' else True
                         scope_list = ['conv2d_3x3', 'rpn_classifier', 'rpn_regressor']
-                    else:
+                    else:  # 模块之间的相应层不共享变量
                         reuse_flag = None
                         scope_list = ['conv2d_3x3_'+level, 'rpn_classifier_'+level, 'rpn_regressor_'+level]
 
@@ -233,8 +233,8 @@ class RPN(object):
                                                  num_outputs=256,
                                                  kernel_size=[3, 3],
                                                  stride=1,
-                                                 scope=scope_list[0],
-                                                 reuse=reuse_flag)
+                                                 scope=scope_list[0],  # 共享变量所指的variable_scope
+                                                 reuse=reuse_flag)  # 指定是否共享层或者和变量
                     rpn_box_scores = slim.conv2d(rpn_conv2d_3x3,
                                                  num_outputs=2 * self.num_of_anchors_per_location,
                                                  kernel_size=[1, 1],

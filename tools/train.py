@@ -76,7 +76,7 @@ def train():
                             inputs=img_batch,
                             gtboxes_and_label=gtboxes_and_label_minAreaRectangle,
                             is_training=True,
-                            share_head=cfgs.SHARE_HEAD,
+                            share_head=cfgs.SHARE_HEAD,  # FPN各模块(P1、P2...)的对应层是否共享变量
                             share_net=share_net,
                             stride=cfgs.STRIDE,
                             anchor_ratios=cfgs.ANCHOR_RATIOS,
