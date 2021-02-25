@@ -97,12 +97,18 @@ def padd_boxes_with_zeros(boxes, scores, max_num_of_boxes):
 
 
 def get_horizen_minAreaRectangle(boxs, with_label=True):
+    """
+    将5点坐标表示法转换为8点坐标【最小外接正矩形】，并分别求出四个顶点（8个坐标值）中的y_min,x_min,y_max,x_max
+    :param boxs:
+    :param with_label:
+    :return:
+    """
 
-    rpn_proposals_boxes_convert = tf.py_func(forward_convert,
+    rpn_proposals_boxes_convert = tf.py_func(forward_convert,  # 5点表示法转换为8点表示法，得到最小外接正矩形
                                              inp=[boxs, with_label],
                                              Tout=tf.float32)
     if with_label:
-        rpn_proposals_boxes_convert = tf.reshape(rpn_proposals_boxes_convert, [-1, 9])
+        rpn_proposals_boxes_convert = tf.reshape(rpn_proposals_boxes_convert, [-1, 9])  # 8个坐标点加上label标签，共9列
 
         boxes_shape = tf.shape(rpn_proposals_boxes_convert)
         y_list = tf.strided_slice(rpn_proposals_boxes_convert, begin=[0, 0], end=[boxes_shape[0], boxes_shape[1] - 1],

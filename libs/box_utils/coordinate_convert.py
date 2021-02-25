@@ -40,7 +40,7 @@ def back_forward_convert(coordinate, with_label=True):
         for rect in coordinate:
             box = np.int0(rect[:-1])
             box = box.reshape([4, 2])
-            rect1 = cv2.minAreaRect(box)
+            rect1 = cv2.minAreaRect(box)  # 得到最小外接斜矩形区域
 
             x, y, w, h, theta = rect1[0][0], rect1[0][1], rect1[1][0], rect1[1][1], rect1[2]
             boxes.append([y, x, h, w, theta, rect[-1]])

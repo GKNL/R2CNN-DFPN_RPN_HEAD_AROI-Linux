@@ -5,15 +5,15 @@ import os
 # root path
 ROO_PATH = os.path.abspath('/home/20184868@software.com/PM/pycharmProjects/R2CNN-DFPN_RPN_HEAD_AROI-Linux')
 
-# pretrain weights path
+# 预训练权重文件路径
 MODEL_PATH = ROO_PATH + '/output/model'
 SUMMARY_PATH = ROO_PATH + '/output/summary'
 
 TEST_SAVE_PATH = ROO_PATH + '/tools/test_result'
-INFERENCE_IMAGE_PATH = ROO_PATH + '/tools/inference_image'
-INFERENCE_SAVE_PATH = ROO_PATH + '/tools/inference_result'
+INFERENCE_IMAGE_PATH = ROO_PATH + '/tools/inference_image'  # 测试输入图片路径
+INFERENCE_SAVE_PATH = ROO_PATH + '/tools/inference_result'  # 测试结果保存路径
 
-NET_NAME = 'resnet_v1_101' 
+NET_NAME = 'resnet_v1_101'  # share net的name
 VERSION = 'v1_ship_head'
 CLASS_NUM = 1
 LEVEL = ['P2', 'P3', 'P4', 'P5', 'P6']
@@ -23,7 +23,7 @@ ANCHOR_SCALES = [1.]
 ANCHOR_RATIOS = [1 / 2., 1 / 3., 1., 3., 2.]
 SCALE_FACTORS = [10., 10., 5., 5., 10.]
 OUTPUT_STRIDE = 16
-SHORT_SIDE_LEN = 600
+SHORT_SIDE_LEN = 600  # 宽600（较短的一边）
 DATASET_NAME = 'ship'
 
 BATCH_SIZE = 1

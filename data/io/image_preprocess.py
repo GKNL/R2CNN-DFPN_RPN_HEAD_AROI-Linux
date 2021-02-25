@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+# @Time    : 2021/2/24 16:50
+# @Author  : Peng Miao
+# @File    : image_preprocess.py
+# @Intro   : 对图像进行变换处理和数据增强
 
 from __future__ import absolute_import
 from __future__ import print_function

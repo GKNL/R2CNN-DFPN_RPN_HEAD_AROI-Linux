@@ -101,12 +101,12 @@ def convert_pascal_to_tfrecord():
         feature = tf.train.Features(feature={
             # do not need encode() in linux, need encode() in windows
             # 'img_name': _bytes_feature(img_name.encode()),
-            'img_name': _bytes_feature(img_name.encode()),
+            'img_name': _bytes_feature(img_name),
             'img_height': _int64_feature(img_height),
             'img_width': _int64_feature(img_width),
             'img': _bytes_feature(img.tostring()),
             'gtboxes_and_label': _bytes_feature(gtbox_label.tostring()),
-            'num_objects': _int64_feature(gtbox_label.shape[0])
+            'num_objects': _int64_feature(gtbox_label.shape[0])  # 该张图片中object的总数
         })
 
         example = tf.train.Example(features=feature)

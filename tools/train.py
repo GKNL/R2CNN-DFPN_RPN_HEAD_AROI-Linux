@@ -28,27 +28,29 @@ os.environ["CUDA_VISIBLE_DEVICES"] = cfgs.GPU_GROUP
 
 def train():
     with tf.Graph().as_default():
-        with tf.name_scope('get_batch'):
+        with tf.name_scope('get_batch'):  # 读取训练数据集
             img_name_batch, img_batch, gtboxes_and_label_batch, num_objects_batch = \
                 next_batch(dataset_name=cfgs.DATASET_NAME,
                            batch_size=cfgs.BATCH_SIZE,
                            shortside_len=cfgs.SHORT_SIDE_LEN,
                            is_training=True)
+            # tf.squeeze()：如果指定维度的维度大小为1，则删除这个维度（这里可以使用这个函数是因为batch_size设置为1）
             gtboxes_and_label, head = get_head(tf.squeeze(gtboxes_and_label_batch, 0))
-            gtboxes_and_label = tf.py_func(back_forward_convert,
+            gtboxes_and_label = tf.py_func(back_forward_convert,  # 将8点坐标转化为5点坐标表示([y_c, x_c, h, w, theta, (label)])
                                            inp=[gtboxes_and_label],
-                                           Tout=tf.float32)
+                                           Tout=tf.float32)  # 使用tf对自定义函数back_forward_convert进行封装
             gtboxes_and_label = tf.reshape(gtboxes_and_label, [-1, 6])
-            head_quadrant = tf.py_func(get_head_quadrant,
+            head_quadrant = tf.py_func(get_head_quadrant,  # 根据head坐标和gtboxes，计算舰头所在象限
                                        inp=[head, gtboxes_and_label],
                                        Tout=tf.float32)
             head_quadrant = tf.reshape(head_quadrant, [-1, 1])
 
+            # 最小外接正矩形:[y_min, x_min, y_max, x_max, label]
             gtboxes_and_label_minAreaRectangle = get_horizen_minAreaRectangle(gtboxes_and_label)
 
             gtboxes_and_label_minAreaRectangle = tf.reshape(gtboxes_and_label_minAreaRectangle, [-1, 5])
 
-        with tf.name_scope('draw_gtboxes'):
+        with tf.name_scope('draw_gtboxes'):  # 画出gt图片的外接正矩形和外接斜矩形
             gtboxes_in_img = draw_box_with_color(img_batch, tf.reshape(gtboxes_and_label_minAreaRectangle, [-1, 5])[:, :-1],
                                                  text=tf.shape(gtboxes_and_label_minAreaRectangle)[0])
 

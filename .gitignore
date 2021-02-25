@@ -49,3 +49,4 @@ tools/shapan_demo
 output
 /data/VOCdevkit/
 /data/tfrecords/
+/data/pretrained_weights/

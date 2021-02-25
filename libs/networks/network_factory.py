@@ -46,7 +46,7 @@ def get_network_byname(net_name,
                        global_pool=True,
                        output_stride=None,
                        spatial_squeeze=True):
-    if net_name == 'resnet_v1_50':
+    if net_name == 'resnet_v1_50':  # bottleneck ResBlock
         FLAGS = get_flags_byname(net_name)
         with slim.arg_scope(resnet_v1.resnet_arg_scope(weight_decay=FLAGS.weight_decay)):
             logits, end_points = resnet_v1.resnet_v1_50(inputs=inputs,
@@ -58,7 +58,7 @@ def get_network_byname(net_name,
                                                         )
 
         return logits, end_points
-    if net_name == 'resnet_v1_101':
+    if net_name == 'resnet_v1_101':  # bottleneck ResBlock
         FLAGS = get_flags_byname(net_name)
         with slim.arg_scope(resnet_v1.resnet_arg_scope(weight_decay=FLAGS.weight_decay)):
             logits, end_points = resnet_v1.resnet_v1_101(inputs=inputs,

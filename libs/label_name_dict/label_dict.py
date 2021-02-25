@@ -49,9 +49,17 @@ else:
 
 
 def get_label_name_map():
+    """
+    根据cfgs获取倒置后的label map，例如：{0: 'back_ground', 1: 'ship'}
+    :return:
+    """
     reverse_dict = {}
     for name, label in NAME_LABEL_MAP.items():
         reverse_dict[label] = name
     return reverse_dict
 
 LABEl_NAME_MAP = get_label_name_map()
+
+
+if __name__ == "__main__":
+    print(LABEl_NAME_MAP)

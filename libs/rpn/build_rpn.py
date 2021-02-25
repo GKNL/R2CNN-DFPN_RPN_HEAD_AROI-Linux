@@ -25,10 +25,10 @@ class RPN(object):
                  anchor_scales,
                  scale_factors,
                  base_anchor_size_list,  # P2, P3, P4, P5, P6
-                 stride,
+                 stride,  # 每一层Pi的步幅stride
                  level,
                  top_k_nms,
-                 share_head=False,
+                 share_head=False,  # head网络（获取网络输出内容的网络，利用之前提取的特征，head利用这些特征，做出预测）
                  rpn_nms_iou_threshold=0.7,
                  max_proposals_num=300,
                  rpn_iou_positive_threshold=0.7,
