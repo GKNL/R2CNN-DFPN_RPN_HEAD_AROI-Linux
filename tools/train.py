@@ -78,14 +78,14 @@ def train():
                             is_training=True,
                             share_head=cfgs.SHARE_HEAD,  # FPN各模块(P1、P2...)的对应层是否共享变量
                             share_net=share_net,
-                            stride=cfgs.STRIDE,
-                            anchor_ratios=cfgs.ANCHOR_RATIOS,
+                            stride=cfgs.STRIDE,  # [4, 8, 16, 32, 64]
+                            anchor_ratios=cfgs.ANCHOR_RATIOS,  # [1 / 2., 1 / 3., 1., 3., 2.]
                             anchor_scales=cfgs.ANCHOR_SCALES,
-                            scale_factors=cfgs.SCALE_FACTORS,
-                            base_anchor_size_list=cfgs.BASE_ANCHOR_SIZE_LIST,  # P2, P3, P4, P5, P6
-                            level=cfgs.LEVEL,
+                            scale_factors=cfgs.SCALE_FACTORS,  # [10., 10., 5., 5., 10.]
+                            base_anchor_size_list=cfgs.BASE_ANCHOR_SIZE_LIST,  # [32, 64, 128, 256, 512]
+                            level=cfgs.LEVEL,  # P2, P3, P4, P5, P6
                             top_k_nms=cfgs.RPN_TOP_K_NMS,
-                            rpn_nms_iou_threshold=cfgs.RPN_NMS_IOU_THRESHOLD,
+                            rpn_nms_iou_threshold=cfgs.RPN_NMS_IOU_THRESHOLD,  # 0.7
                             max_proposals_num=cfgs.MAX_PROPOSAL_NUM,
                             rpn_iou_positive_threshold=cfgs.RPN_IOU_POSITIVE_THRESHOLD,
                             rpn_iou_negative_threshold=cfgs.RPN_IOU_NEGATIVE_THRESHOLD,  # iou>=0.7 is positive box, iou< 0.3 is negative

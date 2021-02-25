@@ -17,8 +17,8 @@ NET_NAME = 'resnet_v1_101'  # share net的name
 VERSION = 'v1_ship_head'
 CLASS_NUM = 1
 LEVEL = ['P2', 'P3', 'P4', 'P5', 'P6']
-BASE_ANCHOR_SIZE_LIST = [32, 64, 128, 256, 512]
-STRIDE = [4, 8, 16, 32, 64]
+BASE_ANCHOR_SIZE_LIST = [32, 64, 128, 256, 512]  # P越高，RPN生成的anchor数越少，对应在原图中anchor的size也应该越大
+STRIDE = [4, 8, 16, 32, 64]  # 5个stride，对应5个Feature Map的缩放比例(例如：stride=4表示P1相对于原图，size缩小为原来的1/4)
 ANCHOR_SCALES = [1.]
 ANCHOR_RATIOS = [1 / 2., 1 / 3., 1., 3., 2.]
 SCALE_FACTORS = [10., 10., 5., 5., 10.]

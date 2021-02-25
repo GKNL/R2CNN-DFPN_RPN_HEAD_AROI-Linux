@@ -23,7 +23,7 @@ def enum_scales(base_anchor, anchor_scales, name='enum_scales'):
 
 def enum_ratios(anchors, anchor_ratios, name='enum_ratios'):
 
-    '''
+    ''' [w = w/sqrt_ratios, h= h*sqrt_ratios] (例如：48*48的base anchor，经过anchor_ratios（例如是1/4）之后，得到h=24,w=96的anchor)
     :param anchors: base anchors in different scales
     :param anchor_ratios:  ratio = h / w
     :return: base anchors in different scales and ratios
@@ -53,16 +53,22 @@ def make_anchors(base_anchor_size, anchor_scales, anchor_ratios, featuremaps_hei
     :param anchor_ratios: anchor ratios
     :param featuremaps_width: width of featuremaps
     :param featuremaps_height: height of featuremaps
-    :return: anchors of shape [w * h * len(anchor_scales) * len(anchor_ratios), 4]
+    :return: anchors of shape [w * h * len(anchor_scales) * len(anchor_ratios), 4] (行代表有多少个anchor，列代表每个anchor的4个坐标【左上和右下的x,y坐标】)
     '''
 
     with tf.variable_scope(name):
+        """ Anchor生成步骤：
+        1.根据base_size生成初始的anchor
+        2.对anchor进行scale缩放（代码中的_scale_enums函数）
+        3.保持anchor的面积不变，改变ratio（代码中的_ratio_enums函数）
+        """
         # [y_center, x_center, h, w]
         base_anchor = tf.constant([0, 0, base_anchor_size, base_anchor_size], dtype=tf.float32)
-        base_anchors = enum_ratios(enum_scales(base_anchor, anchor_scales), anchor_ratios)
+        base_anchors = enum_ratios(enum_scales(base_anchor, anchor_scales), anchor_ratios)  # 计算得到各个长宽比的anchor组合
 
         _, _, ws, hs = tf.unstack(base_anchors, axis=1)
 
+        # 为什么要乘上stride??? -> range(featuremaps_width)得到的是feature map上的横坐标集合，乘上对应FeatureMap的stride之后才是原图的坐标！！
         x_centers = tf.range(tf.cast(featuremaps_width, tf.float32), dtype=tf.float32) * stride
         y_centers = tf.range(tf.cast(featuremaps_height, tf.float32), dtype=tf.float32) * stride
 
@@ -76,6 +82,7 @@ def make_anchors(base_anchor_size, anchor_scales, anchor_ratios, featuremaps_hei
 
         box_sizes = tf.stack([hs, ws], axis=2)
         box_sizes = tf.reshape(box_sizes, [-1, 2])
+        # 两个坐标，四个坐标值（anchor的左上角和右下角）
         final_anchors = tf.concat([box_centers - 0.5*box_sizes, box_centers+0.5*box_sizes], axis=1)
         return final_anchors
 

@@ -51,7 +51,7 @@ class RPN(object):
         self.num_of_anchors_per_location = len(anchor_scales) * len(anchor_ratios)
 
         self.scale_factors = scale_factors
-        self.stride = stride
+        self.stride = stride  # 5个stride，对应5个Feature Map的缩放比例(例如：stride=4表示P1相对于原图，size缩小为原来的1/4)
         self.level = level
         self.top_k_nms = top_k_nms
 
@@ -67,7 +67,7 @@ class RPN(object):
         self.is_training = is_training
         self.share_net = share_net
 
-        self.feature_maps_dict = self.get_feature_maps()
+        self.feature_maps_dict = self.get_feature_maps()  # 特征图s(C2, C3, C4, C5)
         if cfgs.FEATURE_PYRAMID_MODE == 0:
             self.feature_pyramid = self.build_feature_pyramid()
         else:
@@ -78,7 +78,7 @@ class RPN(object):
     def get_feature_maps(self):
 
         '''
-            Compared to https://github.com/KaimingHe/deep-residual-networks, the implementation of resnet_50 in slim
+            Compared to https://github.com/KaimingHe/deep-residual-networks,the implementation of resnet_50 in slim
             subsample the output activations in the last residual unit of each block,
             instead of subsampling the input activations in the first residual unit of each block.
             The two implementations give identical results but the implementation of slim is more memory efficient.
@@ -108,7 +108,7 @@ class RPN(object):
             return feature_maps_dict
 
     def build_dense_feature_pyramid(self):
-        ''' 作者提出的DFPN
+        ''' 作者提出的DFPN：对ResNet中的各层Feature Map进行处理，得到P2,P3,P4,P5,P6
         reference: DenseNet
         build P2, P3, P4, P5, P6
         :return: multi-scale feature map
@@ -117,31 +117,35 @@ class RPN(object):
         feature_pyramid = {}
         with tf.variable_scope('dense_feature_pyramid'):
             with slim.arg_scope([slim.conv2d], weights_regularizer=slim.l2_regularizer(self.rpn_weight_decay)):
+                # C5层先经过1 x 1卷积，将通道数改为256，得到P5
                 feature_pyramid['P5'] = slim.conv2d(self.feature_maps_dict['C5'],
                                                     num_outputs=256,
                                                     kernel_size=[1, 1],
                                                     stride=1,
                                                     scope='build_P5')
 
+                # 对P5进行max pooling 得到P6
                 feature_pyramid['P6'] = slim.max_pool2d(feature_pyramid['P5'],
                                                         kernel_size=[2, 2], stride=2, scope='build_P6')
                 # P6 is down sample of P5
 
-                for layer in range(4, 1, -1):
+                for layer in range(4, 1, -1):  # 依次对C4, C3, C2进行处理，得到P4, P3, P2
                     c = self.feature_maps_dict['C' + str(layer)]
+                    # 以layer = 3为例，对C3进行1*1卷积，改变通道数
                     c_conv = slim.conv2d(c, num_outputs=256, kernel_size=[1, 1], stride=1,
                                          scope='build_P%d/reduce_dimension' % layer)
                     p_concat = [c_conv]
                     up_sample_shape = tf.shape(c)
-                    for layer_top in range(5, layer, -1):
+                    # 下面的代码是DFPN的创新点，区别于普通的FPN
+                    for layer_top in range(5, layer, -1):  # 对P5和P4分别进行上采样（以layer = 3为例时）
                         p_temp = feature_pyramid['P' + str(layer_top)]
-
+                        # 对P_temp进行上采样
                         p_sub = tf.image.resize_nearest_neighbor(p_temp, [up_sample_shape[1], up_sample_shape[2]],
                                                                  name='build_P%d/up_sample_nearest_neighbor' % layer)
                         p_concat.append(p_sub)
 
-                    p = tf.concat(p_concat, axis=3)
-
+                    p = tf.concat(p_concat, axis=3)  # 将P5_sub, P4_sub, C3_conv进行拼接（以layer = 3为例时）
+                    # 对拼接后的结果再进行3*3的卷积（减轻最近邻近插值带来的混叠影响，周围的数都相同）
                     p_conv = slim.conv2d(p, 256, kernel_size=[3, 3], stride=[1, 1],
                                          padding='SAME', scope='build_P%d/avoid_aliasing' % layer)
                     feature_pyramid['P' + str(layer)] = p_conv
@@ -169,15 +173,17 @@ class RPN(object):
                                                         kernel_size=[2, 2], stride=2, scope='build_P6')
                 # P6 is down sample of P5
 
-                for layer in range(4, 1, -1):
+                for layer in range(4, 1, -1):  # 依次对C4, C3, C2进行处理，得到P4, P3, P2
                     p, c = feature_pyramid['P' + str(layer + 1)], self.feature_maps_dict['C' + str(layer)]
                     up_sample_shape = tf.shape(c)
+                    # 以layer = 4为例: 对P5进行上采样使之与C4的size相同
                     up_sample = tf.image.resize_nearest_neighbor(p, [up_sample_shape[1], up_sample_shape[2]],
                                                                  name='build_P%d/up_sample_nearest_neighbor' % layer)
-
+                    # 对C4进行1*1卷积，改变通道数
                     c = slim.conv2d(c, num_outputs=256, kernel_size=[1, 1], stride=1,
                                     scope='build_P%d/reduce_dimension' % layer)
-                    p = up_sample + c
+                    p = up_sample + c  # 拼接upsample和c，得到M4特征图
+                    #  对M4特征图再经过3 x 3卷积(减轻最近邻近插值带来的混叠影响，周围的数都相同)
                     p = slim.conv2d(p, 256, kernel_size=[3, 3], stride=1,
                                     padding='SAME', scope='build_P%d/avoid_aliasing' % layer)
                     feature_pyramid['P' + str(layer)] = p
@@ -185,6 +191,10 @@ class RPN(object):
         return feature_pyramid
 
     def make_anchors(self):
+        """
+        针对金字塔的每一层即相对应的feature-map生成anchors
+        :return:
+        """
         with tf.variable_scope('make_anchors'):
             anchor_list = []
             level_list = self.level
