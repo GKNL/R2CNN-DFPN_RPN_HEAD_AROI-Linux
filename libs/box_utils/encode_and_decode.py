@@ -12,6 +12,10 @@ import math
 
 def decode_boxes(encode_boxes, reference_boxes, scale_factors=None, name='decode'):
     '''
+    根据anchor box的[x,y,w,h]和RPN回归分支输出的平移变换t_x*,t_y*和缩放尺度t_w*,t_h*，计算得出pred box。
+    （解释：建立一个参考的框与预测的框中心坐标之间的线性关系，以及预测的框与参考的框宽高之间的对数关系，最后得到预测的框。
+    这里采用的就是原始的论文里面所采用的那个因子，t_xcenter,t_ycenter,t_w,t_h,
+    网络就是要不断的学习这些因子，让预测框更加准确。）
 
     :param encode_boxes:[N, 4]
     :param reference_boxes: [N, 4] .
@@ -22,7 +26,7 @@ def decode_boxes(encode_boxes, reference_boxes, scale_factors=None, name='decode
     '''
 
     with tf.variable_scope(name):
-        t_ycenter, t_xcenter, t_h, t_w = tf.unstack(encode_boxes, axis=1)
+        t_ycenter, t_xcenter, t_h, t_w = tf.unstack(encode_boxes, axis=1)  # RPN回归分支输出的平移变换t_x*,t_y*和缩放尺度t_w*,t_h*
         if scale_factors:
             t_xcenter /= scale_factors[0]
             t_ycenter /= scale_factors[1]
@@ -33,8 +37,8 @@ def decode_boxes(encode_boxes, reference_boxes, scale_factors=None, name='decode
 
         reference_xcenter = (reference_xmin + reference_xmax) / 2.
         reference_ycenter = (reference_ymin + reference_ymax) / 2.
-        reference_w = reference_xmax - reference_xmin
-        reference_h = reference_ymax - reference_ymin
+        reference_w = reference_xmax - reference_xmin  # anchor的宽
+        reference_h = reference_ymax - reference_ymin  # anchor的高
 
         predict_xcenter = t_xcenter * reference_w + reference_xcenter
         predict_ycenter = t_ycenter * reference_h + reference_ycenter
@@ -140,6 +144,8 @@ def decode_boxes_rotate(encode_boxes, reference_boxes, scale_factors=None, name=
 
 def encode_boxes(unencode_boxes, reference_boxes, scale_factors=None, name='encode'):
     '''
+    根据anchor box的[x,y,w,h]和gt box的[x*,y*,w*,h*]，计算得到平移变换t_x*,t_y*和缩放尺度t_w*,t_h*(RPN回归分支学习的目标)
+    (encode应该指的是将坐标encode为缩放尺度因子)
 
     :param unencode_boxes: [batch_size*H*W*num_anchors_per_location, 4]
     :param reference_boxes: [H*W*num_anchors_per_location, 4]

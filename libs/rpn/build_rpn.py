@@ -61,7 +61,7 @@ class RPN(object):
         self.rpn_iou_positive_threshold = rpn_iou_positive_threshold
         self.rpn_iou_negative_threshold = rpn_iou_negative_threshold
         self.rpn_mini_batch_size = rpn_mini_batch_size
-        self.rpn_positives_ratio = rpn_positives_ratio
+        self.rpn_positives_ratio = rpn_positives_ratio  # # RPN生成的minibatch anchor samples中，正样本所占比例（这里正:负=1:1）
         self.remove_outside_anchors = remove_outside_anchors
         self.rpn_weight_decay = rpn_weight_decay
         self.is_training = is_training
@@ -215,9 +215,11 @@ class RPN(object):
                     #     Tout=tf.float32
                     # )
 
+                    # 在原图上生成anchors
                     tmp_anchors = make_anchor.make_anchors(base_anchor_size, self.anchor_scales, self.anchor_ratios,
                                                            featuremap_height,  featuremap_width, stride,
                                                            name='make_anchors_{}'.format(level))
+                    # 返回的anchors集合格式：[w * h * len(anchor_scales) * len(anchor_ratios), 4]
                     tmp_anchors = tf.reshape(tmp_anchors, [-1, 4])
                     anchor_list.append(tmp_anchors)
 
@@ -230,6 +232,7 @@ class RPN(object):
         rpn_scores_list = []
         with tf.variable_scope('rpn_net'):
             with slim.arg_scope([slim.conv2d], weights_regularizer=slim.l2_regularizer(self.rpn_weight_decay)):
+                # 对于DFPN的每一层的Feature Map进行操作
                 for level in self.level:
 
                     if self.share_head:  # 初始化P2模块各层权重变量，其他模块的相应层之间共享P2的变量
@@ -245,6 +248,11 @@ class RPN(object):
                                                  stride=1,
                                                  scope=scope_list[0],  # 共享变量所指的variable_scope
                                                  reuse=reuse_flag)  # 指定是否共享层或者和变量
+                    """
+                    接下来对整个Feature Map进行卷积操作（分类和回归分支）[注意是对整个Feature Map进行操作，而不是对Anchor进行操作]
+                    因为Feature Map上每个点对应原图一个区域(k个anchor)，相当于对原图上的每个anchor进行分类和回归分支了
+                    """
+                    # 分类分支：对rpn_conv2d_3x3进行分类（前景/非前景分数值）
                     rpn_box_scores = slim.conv2d(rpn_conv2d_3x3,
                                                  num_outputs=2 * self.num_of_anchors_per_location,
                                                  kernel_size=[1, 1],
@@ -252,16 +260,17 @@ class RPN(object):
                                                  scope=scope_list[1],
                                                  activation_fn=None,
                                                  reuse=reuse_flag)
+                    # 回归分支（移变换t_x*,t_y*和缩放尺度t_w*,t_h*）
                     rpn_encode_boxes = slim.conv2d(rpn_conv2d_3x3,
-                                                   num_outputs=4 * self.num_of_anchors_per_location,
+                                                   num_outputs=4 * self.num_of_anchors_per_location,  # （tx,ty,tw,th）
                                                    kernel_size=[1, 1],
                                                    stride=1,
                                                    scope=scope_list[2],
                                                    activation_fn=None,
                                                    reuse=reuse_flag)
 
-                    rpn_box_scores = tf.reshape(rpn_box_scores, [-1, 2])
-                    rpn_encode_boxes = tf.reshape(rpn_encode_boxes, [-1, 4])
+                    rpn_box_scores = tf.reshape(rpn_box_scores, [-1, 2])  # 该卷积层输出含义：表示当前位置是否含有目标
+                    rpn_encode_boxes = tf.reshape(rpn_encode_boxes, [-1, 4])  # 该卷积层输出含义：移变换t_x*,t_y*和缩放尺度t_w*,t_h*
 
                     rpn_scores_list.append(rpn_box_scores)
                     rpn_encode_boxes_list.append(rpn_encode_boxes)
@@ -272,13 +281,17 @@ class RPN(object):
             return rpn_all_encode_boxes, rpn_all_boxes_scores
 
     def get_anchors_and_rpn_predict(self):
+        """
+        获得RPN网络输出的anchors，以及分类分支和回归分支（框回归坐标）的计算值
+        :return:
+        """
 
-        anchors = self.make_anchors()
-        rpn_encode_boxes, rpn_scores = self.rpn_net()
+        anchors = self.make_anchors()  # 计算anchors
+        rpn_encode_boxes, rpn_scores = self.rpn_net()  # 在Feature Map上计算分类与回归分支
 
         with tf.name_scope('get_anchors_and_rpn_predict'):
             if self.is_training:
-                if self.remove_outside_anchors:
+                if self.remove_outside_anchors:  # 若True，则过滤掉超出边界的anchor
                     valid_indices = boxes_utils.filter_outside_boxes(boxes=anchors,
                                                                      img_h=tf.shape(self.img_batch)[1],
                                                                      img_w=tf.shape(self.img_batch)[2])
@@ -293,9 +306,9 @@ class RPN(object):
                 return anchors, rpn_encode_boxes, rpn_scores
 
     def rpn_find_positive_negative_samples(self, anchors):
-        '''
+        ''' 对输入的anchor区分正负样本
         assign anchors targets: object or background.
-        :param anchors: [valid_num_of_anchors, 4]. use N to represent valid_num_of_anchors
+        :param anchors（在所有level的Feature Map上生成的anchor）: [valid_num_of_anchors, 4]. use N to represent valid_num_of_anchors
 
         :return:labels. anchors_matched_gtboxes, object_mask
 
@@ -304,37 +317,39 @@ class RPN(object):
         object_mask. tf.float32. 1.0 represent box is object, 0.0 is others. shape is [N, ]
         '''
         with tf.variable_scope('rpn_find_positive_negative_samples'):
-            gtboxes = tf.reshape(self.gtboxes_and_label[:, :-1], [-1, 4])
+            gtboxes = tf.reshape(self.gtboxes_and_label[:, :-1], [-1, 4])  # 训练集中标注好的ground true anchors
             gtboxes = tf.cast(gtboxes, tf.float32)
 
-            ious = iou.iou_calculate(anchors, gtboxes)  # [N, M]
+            # 计算anchor与gt的交并比IOU
+            ious = iou.iou_calculate(anchors, gtboxes)  # [N, M]  N代表valid_num_of_anchors，M代表gtboxes的个数
 
-            max_iou_each_row = tf.reduce_max(ious, axis=1)
+            max_iou_each_row = tf.reduce_max(ious, axis=1)  # [1,N] 找出ious矩阵中每一行上的最大值 => 每个anchor与M个gt中最大的交并比
 
             labels = tf.ones(shape=[tf.shape(anchors)[0], ], dtype=tf.float32) * (-1)  # [N, ] # ignored is -1
 
-            matchs = tf.cast(tf.argmax(ious, axis=1), tf.int32)
+            matchs = tf.cast(tf.argmax(ious, axis=1), tf.int32)  # [1,N] 比较每一行的元素，将每一行最大元素所在的索引记录下来
 
-            # an anchor that has an IoU overlap higher than 0.7 with any ground-truth box
-            positives1 = tf.greater_equal(max_iou_each_row, self.rpn_iou_positive_threshold)  # iou >= 0.7 is positive
+            anchors_matched_gtboxes = tf.gather(gtboxes, matchs)  # [N, 4]  每个anchor所对应的gt（两者IOU计算值最大）
+
+            # 计算正样本 an anchor that has an IoU overlap higher than 0.7 with any ground-truth box
+            positives1 = tf.greater_equal(max_iou_each_row, self.rpn_iou_positive_threshold)  # iou >= 0.7 is positive （[1,N]的bool矩阵）
 
             # to avoid none of boxes iou >= 0.7, use max iou boxes as positive
-            max_iou_each_column = tf.reduce_max(ious, 0)
+            max_iou_each_column = tf.reduce_max(ious, 0)  # [1,M] 找出ious矩阵每一列中的最大值 => 每个gt与若干个anchor相交，其中IOU最大的值
             # the anchor/anchors with the highest Intersection-over-Union (IoU) overlap with a ground-truth box
-            positives2 = tf.reduce_sum(tf.cast(tf.equal(ious, max_iou_each_column), tf.float32), axis=1)
+            positives2 = tf.reduce_sum(tf.cast(tf.equal(ious, max_iou_each_column), tf.float32), axis=1)  # [1,N]的bool数组 => 前面找出了每个gt有anchor存在的最大IOU，这个数组表示 这些最大IOU是由哪个anchor产生的
 
-            positives = tf.logical_or(positives1, tf.cast(positives2, tf.bool))
+            positives = tf.logical_or(positives1, tf.cast(positives2, tf.bool))  # 求正样本并集
 
             labels += 2 * tf.cast(positives, tf.float32)  # Now, positive is 1, ignored and background is -1
 
-            anchors_matched_gtboxes = tf.gather(gtboxes, matchs)  # [N, 4]
-
+            # 计算负样本
             negatives = tf.less(max_iou_each_row, self.rpn_iou_negative_threshold)
             negatives = tf.logical_and(negatives, tf.greater_equal(max_iou_each_row, 0.1))
 
             labels = labels + tf.cast(negatives, tf.float32)  # [N, ] positive is >=1.0, negative is 0, ignored is -1.0
             '''
-                Need to note: when opsitive, labels may >= 1.0.
+                Need to note: when positive, labels may >= 1.0.
                 Because, when all the iou< 0.7, we set anchors having max iou each column as positive.
                 these anchors may have iou < 0.3.
                 In the begining, labels is [-1, -1, -1...-1]
@@ -353,6 +368,12 @@ class RPN(object):
             return labels, anchors_matched_gtboxes, object_mask
 
     def make_minibatch(self, valid_anchors):
+        """
+        在所有anchor中选出小部分样本（正负比为1:1）作为mini batch
+        :param valid_anchors: RPN产生的anchors（如果remove_outside_anchors=True,则是移除超出边界的anchor）
+        :return: minibatch_indices, minibatch_anchor_matched_gtboxes, object_mask, labels_one_hot
+
+        """
         with tf.variable_scope('rpn_minibatch'):
 
             # in labels(shape is [N, ]): 1 is positive, 0 is negative, -1 is ignored
@@ -361,6 +382,7 @@ class RPN(object):
 
             positive_indices = tf.reshape(tf.where(tf.equal(labels, 1.0)), [-1])  # use labels is same as object_mask
 
+            # 正样本占整个minibatch size的1/2
             num_of_positives = tf.minimum(tf.shape(positive_indices)[0],
                                           tf.cast(self.rpn_mini_batch_size * self.rpn_positives_ratio, tf.int32))
 
@@ -386,36 +408,50 @@ class RPN(object):
             return minibatch_indices, minibatch_anchor_matched_gtboxes, object_mask, labels_one_hot
 
     def rpn_losses(self):
+        """
+        Bounding Box Regression实现部分！！！
+        1.读取小批量anchor样本。然后根据gt和RPN输出的anchors计算平移和缩放因子，与RPN回归分支输出结果一起，计算回归loss
+        2.画出图片中的正样本和负样本
+        3.根据回归分支输出的平移和缩放因子，与RPN输出anchor进行计算，得到pred box，并画出分数TopK的pred box
+        4.计算分类loss
+        (注：encode_***代表平移和缩放尺度因子、decode_***代表框坐标)
+
+        :return:
+        """
         with tf.variable_scope('rpn_losses'):
             minibatch_indices, minibatch_anchor_matched_gtboxes, object_mask, minibatch_labels_one_hot = \
                 self.make_minibatch(self.anchors)
 
             minibatch_anchors = tf.gather(self.anchors, minibatch_indices)
-            minibatch_encode_boxes = tf.gather(self.rpn_encode_boxes, minibatch_indices)
+            minibatch_encode_boxes = tf.gather(self.rpn_encode_boxes, minibatch_indices)  # 回归分支输出：平移和缩放尺度因子
             minibatch_boxes_scores = tf.gather(self.rpn_scores, minibatch_indices)
 
             # encode gtboxes
+            # 根据anchor box的[x,y,w,h]和gt box的[x*,y*,w*,h*]，计算得到平移变换t_x*,t_y*和缩放尺度t_w*,t_h*(RPN回归分支学习的目标)
             minibatch_encode_gtboxes = encode_and_decode.encode_boxes(unencode_boxes=minibatch_anchor_matched_gtboxes,
                                                                       reference_boxes=minibatch_anchors,
                                                                       scale_factors=self.scale_factors)
-
+            # 画出图片中的正样本
             positive_anchors_in_img = draw_box_with_color(self.img_batch,
                                                           minibatch_anchors * tf.expand_dims(object_mask, 1),
                                                           text=tf.shape(tf.where(tf.equal(object_mask, 1.0)))[0])
-
+            # 画出图片中的负样本
             negative_mask = tf.cast(tf.logical_not(tf.cast(object_mask, tf.bool)), tf.float32)
             negative_anchors_in_img = draw_box_with_color(self.img_batch,
                                                           minibatch_anchors * tf.expand_dims(negative_mask, 1),
                                                           text=tf.shape(tf.where(tf.equal(object_mask, 0.0)))[0])
 
+            # 根据anchor box的[x,y,w,h]和RPN回归分支输出的平移变换t_x*,t_y*和缩放尺度t_w*,t_h*，计算得出pred box
             minibatch_decode_boxes = encode_and_decode.decode_boxes(encode_boxes=minibatch_encode_boxes,
                                                                     reference_boxes=minibatch_anchors,
                                                                     scale_factors=self.scale_factors)
 
             tf.summary.image('/positive_anchors', positive_anchors_in_img)
             tf.summary.image('/negative_anchors', negative_anchors_in_img)
+            # 取分数最高的前20
             top_k_scores, top_k_indices = tf.nn.top_k(minibatch_boxes_scores[:, 1], k=20)
 
+            # 在图中画出分数最高的前topK个回归框
             top_detections_in_img = draw_box_with_color(self.img_batch,
                                                         tf.gather(minibatch_decode_boxes, top_k_indices),
                                                         text=tf.shape(top_k_scores)[0])
@@ -423,20 +459,26 @@ class RPN(object):
 
             # losses
             with tf.variable_scope('rpn_location_loss'):
-                location_loss = losses.l1_smooth_losses(predict_boxes=minibatch_encode_boxes,
-                                                        gtboxes=minibatch_encode_gtboxes,
+                location_loss = losses.l1_smooth_losses(predict_boxes=minibatch_encode_boxes,  # 回归分支输出的平移和缩放尺度因子
+                                                        gtboxes=minibatch_encode_gtboxes,  # 由anchor和gt anchor计算得到的平移和缩放尺度因子
                                                         object_weights=object_mask)
                 slim.losses.add_loss(location_loss)  # add smooth l1 loss to losses collection
 
             with tf.variable_scope('rpn_classification_loss'):
-                classification_loss = slim.losses.softmax_cross_entropy(logits=minibatch_boxes_scores,
-                                                                        onehot_labels=minibatch_labels_one_hot)
+                classification_loss = slim.losses.softmax_cross_entropy(logits=minibatch_boxes_scores,  # RPN分类分支的输出
+                                                                        onehot_labels=minibatch_labels_one_hot)  # 训练集gt的label
 
             return location_loss, classification_loss
 
     def rpn_proposals(self):
+        """
+        根据scores返回最高的几个框，然后对这几个框根据IOU（大于0.7的视为不错）进行NMS处理，返回index，
+        然后根据Index挑选框（优秀选手）,返回proposals(优秀选手)及他们的scores(成绩)
+        :return:
+        """
         with tf.variable_scope('rpn_proposals'):
-            rpn_decode_boxes = encode_and_decode.decode_boxes(encode_boxes=self.rpn_encode_boxes,
+            # RPN回归分支得到的pred box
+            rpn_decode_boxes = encode_and_decode.decode_boxes(encode_boxes=self.rpn_encode_boxes,  # 回归分支输出的四个因子
                                                               reference_boxes=self.anchors,
                                                               scale_factors=self.scale_factors)
 
@@ -444,7 +486,7 @@ class RPN(object):
                 img_shape = tf.shape(self.img_batch)
                 rpn_decode_boxes = boxes_utils.clip_boxes_to_img_boundaries(rpn_decode_boxes, img_shape)
 
-            rpn_softmax_scores = slim.softmax(self.rpn_scores)
+            rpn_softmax_scores = slim.softmax(self.rpn_scores)  # 对分类分支的输出分数通过softmax进行归一化处理
             rpn_object_score = rpn_softmax_scores[:, 1]  # second column represent object
 
             if self.top_k_nms:

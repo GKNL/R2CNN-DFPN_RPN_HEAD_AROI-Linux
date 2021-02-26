@@ -6,10 +6,10 @@
       <change afterPath="$PROJECT_DIR$/data/pretrained_weights/resnet_v1_101.ckpt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/data/pretrained_weights/resnet_v1_50.ckpt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/box_utils/encode_and_decode.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/box_utils/encode_and_decode.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/box_utils/make_anchor.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/box_utils/make_anchor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/configs/cfgs.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/configs/cfgs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/rpn/build_rpn.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/rpn/build_rpn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -297,7 +297,9 @@
       <workItem from="1614140702010" duration="18785000" />
       <workItem from="1614179529144" duration="1347000" />
       <workItem from="1614225533672" duration="13314000" />
-      <workItem from="1614256889004" duration="11469000" />
+      <workItem from="1614256889004" duration="13386000" />
+      <workItem from="1614322099688" duration="3338000" />
+      <workItem from="1614329825082" duration="13730000" />
     </task>
     <task id="LOCAL-00001" summary="数据集标注格式转换文件注释">
       <created>1606569996231</created>
@@ -404,7 +406,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614245896208</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="add some notes about codes of FPN_build and anchor_generate.">
+      <created>1614270922805</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1614270922805</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -473,7 +482,8 @@
     <MESSAGE value="moving repository from GKNL/R2CNN-DFPN_RPN_HEAD_AROI to GKNL/R2CNN-DFPN_RPN_HEAD_AROI-Linux" />
     <MESSAGE value="some notes about train.py(load data, share net cfgs)" />
     <MESSAGE value="RPN模型的share_head参数理解注释" />
-    <option name="LAST_COMMIT_MESSAGE" value="RPN模型的share_head参数理解注释" />
+    <MESSAGE value="add some notes about codes of FPN_build and anchor_generate." />
+    <option name="LAST_COMMIT_MESSAGE" value="add some notes about codes of FPN_build and anchor_generate." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

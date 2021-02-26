@@ -53,7 +53,7 @@ def make_anchors(base_anchor_size, anchor_scales, anchor_ratios, featuremaps_hei
     :param anchor_ratios: anchor ratios
     :param featuremaps_width: width of featuremaps
     :param featuremaps_height: height of featuremaps
-    :return: anchors of shape [w * h * len(anchor_scales) * len(anchor_ratios), 4] (行代表有多少个anchor，列代表每个anchor的4个坐标【左上和右下的x,y坐标】)
+    :return: anchors of shape [w * h * len(anchor_scales) * len(anchor_ratios), 4] (行代表有多少个anchor，列代表每个anchor的4个坐标[左上和右下的x,y坐标]即[ymin, xmin, ymax, xmax])
     '''
 
     with tf.variable_scope(name):
