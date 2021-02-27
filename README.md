@@ -9,3 +9,6 @@
 [**Windows Version**](https://github.com/GKNL/R2CNN-DFPN_RPN_HEAD_AROI)：Windows 10 + Python 3.6 + cuda 9.0 + cudnn 7.6.5 + tensorflow 1.12.0
 
 [**Linux Version**](https://github.com/GKNL/R2CNN-DFPN_RPN_HEAD_AROI-Linux): CentOS + Python 2.7 + cuda 9.0 + cudnn 7.6.5 + tensorflow 1.8.0
+
+A better implementation of R2CNN: [DetectionTeamUCAS/R2CNN_Faster-RCNN_Tensorflow](https://github.com/DetectionTeamUCAS/R2CNN_Faster-RCNN_Tensorflow))
+(TODO: Add head_quadrant codes of this repository to "DetectionTeamUCAS/R2CNN_Faster-RCNN_Tensorflow")

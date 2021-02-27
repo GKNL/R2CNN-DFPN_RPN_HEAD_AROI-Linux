@@ -6,12 +6,7 @@
       <change afterPath="$PROJECT_DIR$/data/pretrained_weights/resnet_v1_101.ckpt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/data/pretrained_weights/resnet_v1_50.ckpt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/box_utils/boxes_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/box_utils/boxes_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/box_utils/encode_and_decode.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/box_utils/encode_and_decode.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/configs/cfgs.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/configs/cfgs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/fast_rcnn/build_fast_rcnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/fast_rcnn/build_fast_rcnn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/rpn/build_rpn.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/rpn/build_rpn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -303,7 +298,7 @@
       <workItem from="1614322099688" duration="3338000" />
       <workItem from="1614329825082" duration="13843000" />
       <workItem from="1614409888496" duration="6725000" />
-      <workItem from="1614439827478" duration="704000" />
+      <workItem from="1614439827478" duration="1150000" />
     </task>
     <task id="LOCAL-00001" summary="数据集标注格式转换文件注释">
       <created>1606569996231</created>
@@ -424,7 +419,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614356855346</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Stage Two(Fast RCNN)部分代码的注释">
+      <created>1614440591395</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1614440591395</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -495,7 +497,8 @@
     <MESSAGE value="RPN模型的share_head参数理解注释" />
     <MESSAGE value="add some notes about codes of FPN_build and anchor_generate." />
     <MESSAGE value="RPN Bounding Box Regression、RPN Loss部分代码的注释" />
-    <option name="LAST_COMMIT_MESSAGE" value="RPN Bounding Box Regression、RPN Loss部分代码的注释" />
+    <MESSAGE value="Stage Two(Fast RCNN)部分代码的注释" />
+    <option name="LAST_COMMIT_MESSAGE" value="Stage Two(Fast RCNN)部分代码的注释" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
