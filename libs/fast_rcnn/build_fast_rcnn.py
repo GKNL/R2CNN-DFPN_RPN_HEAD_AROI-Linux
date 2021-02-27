@@ -42,14 +42,14 @@ class FastRCNN(object):
                  head_quadrant):
 
         self.feature_pyramid = feature_pyramid
-        self.rpn_proposals_boxes = rpn_proposals_boxes  # [N, 4]
+        self.rpn_proposals_boxes = rpn_proposals_boxes  # [N, 4]  RPN输出的proposal坐标（水平框:[predict_ymin, predict_xmin,predict_ymax, predict_xmax]）
         self.rpn_proposals_scores = rpn_proposals_scores
 
         self.img_shape = img_shape
         self.img_batch = img_batch
         self.roi_size = roi_size
         self.roi_pool_kernel_size = roi_pool_kernel_size
-        self.level = level
+        self.level = level  # ['P2', 'P3', 'P4', 'P5', 'P6']
         self.min_level = int(level[0][1])
         self.max_level = min(int(level[-1][1]), 5)
 
@@ -81,6 +81,10 @@ class FastRCNN(object):
         self.fast_rcnn_encode_boxes_rotate, self.fast_rcnn_scores_rotate, self.fast_rcnn_head_quadrant = self.fast_rcnn_net()
 
     def assign_level(self):
+        """
+        根据proposal的坐标计算其是由FPN哪一层Feature Map产生的
+        :return:
+        """
         with tf.name_scope('assign_levels'):
             ymin, xmin, ymax, xmax = tf.unstack(self.rpn_proposals_boxes, axis=1)
 
@@ -96,6 +100,11 @@ class FastRCNN(object):
 
     def get_rois(self):
         '''
+           从feature map 上 获得感兴趣区域。
+           过程大体是首先是寻找对应层的rpn_proposals，然后提取出坐标，
+           进行归一化处理后，根据处理后的坐标，从特征金字塔上提取相对应的区域feature map，
+           然后经一个最大池化操作后得到
+
            1)get roi from feature map
            2)roi align or roi pooling. Here is roi align
            :return:
@@ -111,6 +120,7 @@ class FastRCNN(object):
         with tf.variable_scope('fast_rcnn_roi'):
             # P6 is not used by the Fast R-CNN detector.
             for i in range(self.min_level, self.max_level + 1):
+                # 取出这一level Feature Map产生的anchor
                 level_i_proposal_indices = tf.reshape(tf.where(tf.equal(levels, i)), [-1])
                 level_i_proposals = tf.gather(self.rpn_proposals_boxes, level_i_proposal_indices)
 
@@ -122,6 +132,7 @@ class FastRCNN(object):
 
                 all_level_proposal_list.append(level_i_proposals)
 
+                # 对坐标进行归一化处理
                 ymin, xmin, ymax, xmax = tf.unstack(level_i_proposals, axis=1)
                 img_h, img_w = tf.cast(self.img_shape[1], tf.float32), tf.cast(self.img_shape[2], tf.float32)
                 normalize_ymin = ymin / img_h
@@ -129,6 +140,7 @@ class FastRCNN(object):
                 normalize_ymax = ymax / img_h
                 normalize_xmax = xmax / img_w
 
+                # 根据处理后的坐标，从特征金字塔上提取相对应的区域feature map，
                 level_i_cropped_rois = tf.image.crop_and_resize(self.feature_pyramid['P%d' % i],
                                                                 boxes=tf.transpose(tf.stack([normalize_ymin, normalize_xmin,
                                                                                              normalize_ymax, normalize_xmax])),
@@ -136,35 +148,36 @@ class FastRCNN(object):
                                                                                  dtype=tf.int32),
                                                                 crop_size=[self.roi_size, self.roi_size]
                                                                 )
+                # 最大池化操作
                 level_i_rois = slim.max_pool2d(level_i_cropped_rois,
                                                [self.roi_pool_kernel_size, self.roi_pool_kernel_size],
                                                stride=self.roi_pool_kernel_size)
                 all_level_roi_list.append(level_i_rois)
 
-            all_level_rois = tf.concat(all_level_roi_list, axis=0)
+            all_level_rois = tf.concat(all_level_roi_list, axis=0)  # 所有level的roi
             all_level_proposals = tf.concat(all_level_proposal_list, axis=0)
             return all_level_rois, all_level_proposals
 
     def fast_rcnn_net(self):
 
-        with tf.variable_scope('fast_rcnn_net'):
+        with tf.variable_scope('fast_rcnn_net'):  # 水平分支
             with slim.arg_scope([slim.fully_connected], weights_regularizer=slim.l2_regularizer(self.weight_decay)):
 
-                flatten_rois_features = slim.flatten(self.fast_rcnn_all_level_rois)
+                flatten_rois_features = slim.flatten(self.fast_rcnn_all_level_rois)  # 在保持batch_size的同时，将输入压扁
 
-                net = slim.fully_connected(flatten_rois_features, 1024, scope='fc_1')
+                net = slim.fully_connected(flatten_rois_features, 1024, scope='fc_1')  # 全连接层
                 if self.use_dropout:
                     net = slim.dropout(net, keep_prob=0.5, is_training=self.is_training, scope='dropout')
 
                 net = slim.fully_connected(net, 1024, scope='fc_2')
 
                 fast_rcnn_scores = slim.fully_connected(net, self.num_classes + 1, activation_fn=None,
-                                                        scope='classifier')
+                                                        scope='classifier')  # 加上的那个1表示background
 
                 fast_rcnn_encode_boxes = slim.fully_connected(net, self.num_classes * 4, activation_fn=None,
                                                               scope='regressor')
 
-        with tf.variable_scope('fast_rcnn_net_rotate'):
+        with tf.variable_scope('fast_rcnn_net_rotate'):  # 旋转分支！！！！！！！！！
             with slim.arg_scope([slim.fully_connected], weights_regularizer=slim.l2_regularizer(self.weight_decay)):
 
                 flatten_rois_features_rotate = slim.flatten(self.fast_rcnn_all_level_rois)
@@ -181,9 +194,9 @@ class FastRCNN(object):
                 fast_rcnn_encode_boxes_rotate = slim.fully_connected(net_rotate, self.num_classes * 5,
                                                                      activation_fn=None,
                                                                      scope='regressor')
-                fast_rcnn_head_quadrant = slim.fully_connected(net_rotate, self.num_classes * 4,
+                fast_rcnn_head_quadrant = slim.fully_connected(net_rotate, self.num_classes * 4,  # orientation one-hot(4)
                                                                activation_fn=None,
-                                                               scope='head_quadrant')
+                                                               scope='head_quadrant')  # 船头方向预测（效果与下面那一堆注释等价）
         # with tf.variable_scope('fast_rcnn_net_head_quadrant'):
         #     with slim.arg_scope([slim.fully_connected], weights_regularizer=slim.l2_regularizer(self.weight_decay)):
         #
@@ -202,12 +215,12 @@ class FastRCNN(object):
             return fast_rcnn_encode_boxes, fast_rcnn_scores, fast_rcnn_encode_boxes_rotate, fast_rcnn_scores_rotate, fast_rcnn_head_quadrant
 
     def fast_rcnn_find_positive_negative_samples(self, reference_boxes):
-        '''
+        ''' （总体流程类似于RPN中的对应代码）
         when training, we should know each reference box's label and gtbox,
         in second stage
         iou >= 0.5 is object
         iou < 0.5 is background
-        :param reference_boxes: [num_of_input_boxes, 4]
+        :param reference_boxes: [num_of_input_boxes, 4]  (从后面代码看出，其实就是fast_rcnn_all_level_proposals)
         :return:
         reference_boxes_mattached_gtboxes: each reference box mattched gtbox, shape: [num_of_input_boxes, 4]
         object_mask: indicate box(a row) weather is a object, 1 is object, 0 is background
@@ -219,21 +232,22 @@ class FastRCNN(object):
                 tf.reshape(self.gtboxes_and_label_minAreaRectangle[:, :-1], [-1, 4]), tf.float32)  # [M, 4]
 
             gtboxes_rotate = tf.cast(
-                tf.reshape(self.gtboxes_and_label[:, :-1], [-1, 5]), tf.float32)  # [M, 5]
+                tf.reshape(self.gtboxes_and_label[:, :-1], [-1, 5]), tf.float32)  # [M, 5]:[y_c, x_c, h, w, theta]
 
             head_quadrant = tf.cast(
                 tf.reshape(self.head_quadrant, [-1, 4]), tf.float32)  # [M, 4]
 
+            # 计算anchor与gt的交并比IOU(这儿的步骤与RPN类似)
             ious = iou.iou_calculate(reference_boxes, gtboxes)  # [N, M]
 
-            matchs = tf.cast(tf.argmax(ious, axis=1), tf.int32)  # [N, ]
-            max_iou_each_row = tf.reduce_max(ious, axis=1)
+            matchs = tf.cast(tf.argmax(ious, axis=1), tf.int32)  # [N, ] 比较每一行的元素，将每一行最大元素所在的索引记录下来
+            max_iou_each_row = tf.reduce_max(ious, axis=1)  # [1,N] 找出ious矩阵中每一行上的最大值 => 每个anchor与M个gt中最大的交并比
             # [N, ]
             positives = tf.cast(tf.greater_equal(max_iou_each_row, self.fast_rcnn_positives_iou_threshold), tf.int32)
 
-            reference_boxes_mattached_gtboxes = tf.gather(gtboxes, matchs)  # [N, 4]
-            reference_boxes_mattached_gtboxes_rotate = tf.gather(gtboxes_rotate, matchs)
-            reference_boxes_mattached_head_quadrant = tf.gather(head_quadrant, matchs)
+            reference_boxes_mattached_gtboxes = tf.gather(gtboxes, matchs)  # [N, 4] 与proposal对应的gt
+            reference_boxes_mattached_gtboxes_rotate = tf.gather(gtboxes_rotate, matchs)  # 与proposal对应的旋转gt
+            reference_boxes_mattached_head_quadrant = tf.gather(head_quadrant, matchs)  # 与proposal对应的gt的船头所在象限
 
             object_mask = tf.cast(positives, tf.float32)  # [N, ]
 
@@ -244,6 +258,11 @@ class FastRCNN(object):
                    reference_boxes_mattached_head_quadrant, object_mask, label
 
     def fast_rcnn_minibatch(self, reference_boxes):
+        """（总体流程类似于RPN中的对应代码）
+        在所有proposal中选出小部分样本（正负比为1:1）作为mini batch
+        :param reference_boxes:
+        :return:
+        """
         with tf.variable_scope('fast_rcnn_minibatch'):
 
             reference_boxes_mattached_gtboxes, reference_boxes_mattached_gtboxes_rotate, \
@@ -291,6 +310,10 @@ class FastRCNN(object):
                    minibatch_reference_boxes_mattached_head_quadrant, object_mask, label_one_hot
 
     def fast_rcnn_loss(self):
+        """（总体流程类似于RPN中的对应代码）
+
+        :return:
+        """
         with tf.variable_scope('fast_rcnn_loss'):
             minibatch_indices, minibatch_reference_boxes_mattached_gtboxes, \
             minibatch_reference_boxes_mattached_gtboxes_rotate, \

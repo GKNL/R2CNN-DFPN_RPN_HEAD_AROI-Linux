@@ -148,7 +148,7 @@ def encode_boxes(unencode_boxes, reference_boxes, scale_factors=None, name='enco
     (encode应该指的是将坐标encode为缩放尺度因子)
 
     :param unencode_boxes: [batch_size*H*W*num_anchors_per_location, 4]
-    :param reference_boxes: [H*W*num_anchors_per_location, 4]
+    :param reference_boxes: [H*W*num_anchors_per_location, 4] ?写错了吧
     :return: encode_boxes [-1, 4]
     '''
 

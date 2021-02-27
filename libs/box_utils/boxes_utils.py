@@ -10,7 +10,7 @@ from libs.box_utils.coordinate_convert import forward_convert
 
 def clip_boxes_to_img_boundaries(decode_boxes, img_shape):
     '''
-
+    根据image边界对proposal的超出部分进行裁剪
     :param decode_boxes:
     :return: decode boxes, and already clip to boundaries
     '''

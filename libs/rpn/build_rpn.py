@@ -228,7 +228,7 @@ class RPN(object):
 
     def rpn_net(self):
 
-        rpn_encode_boxes_list = []
+        rpn_encode_boxes_list = []  # 所有层Feature Map经回归分支的输出
         rpn_scores_list = []
         with tf.variable_scope('rpn_net'):
             with slim.arg_scope([slim.conv2d], weights_regularizer=slim.l2_regularizer(self.rpn_weight_decay)):
@@ -269,7 +269,7 @@ class RPN(object):
                                                    activation_fn=None,
                                                    reuse=reuse_flag)
 
-                    rpn_box_scores = tf.reshape(rpn_box_scores, [-1, 2])  # 该卷积层输出含义：表示当前位置是否含有目标
+                    rpn_box_scores = tf.reshape(rpn_box_scores, [-1, 2])  # 该卷积层输出含义：表示当前位置是否含有目标 [background score、object score]
                     rpn_encode_boxes = tf.reshape(rpn_encode_boxes, [-1, 4])  # 该卷积层输出含义：移变换t_x*,t_y*和缩放尺度t_w*,t_h*
 
                     rpn_scores_list.append(rpn_box_scores)
@@ -482,17 +482,18 @@ class RPN(object):
                                                               reference_boxes=self.anchors,
                                                               scale_factors=self.scale_factors)
 
-            if not self.is_training:  # when test, clip proposals to img boundaries
+            if not self.is_training:  # when test, clip proposals to img boundaries  根据image边界对proposal的超出部分进行裁剪
                 img_shape = tf.shape(self.img_batch)
                 rpn_decode_boxes = boxes_utils.clip_boxes_to_img_boundaries(rpn_decode_boxes, img_shape)
 
             rpn_softmax_scores = slim.softmax(self.rpn_scores)  # 对分类分支的输出分数通过softmax进行归一化处理
-            rpn_object_score = rpn_softmax_scores[:, 1]  # second column represent object
+            rpn_object_score = rpn_softmax_scores[:, 1]  # [background score、object score] => second column represent object
 
-            if self.top_k_nms:
+            if self.top_k_nms:  # 根据score返回object score最高的几个框
                 rpn_object_score, top_k_indices = tf.nn.top_k(rpn_object_score, k=self.top_k_nms)
                 rpn_decode_boxes = tf.gather(rpn_decode_boxes, top_k_indices)
 
+            # 根据IOU（大于0.7的视为不错）进行NMS处理，返回留下的box的index
             valid_indices = nms.non_maximal_suppression(boxes=rpn_decode_boxes,
                                                         scores=rpn_object_score,
                                                         max_output_size=self.max_proposals_num,

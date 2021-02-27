@@ -29,6 +29,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = cfgs.GPU_GROUP
 def train():
     with tf.Graph().as_default():
         with tf.name_scope('get_batch'):  # 读取训练数据集
+            # gtboxes_and_label_batch:[x1, y1, x2, y2, x3, y3, x4, y4, x_head, y_head, label]
             img_name_batch, img_batch, gtboxes_and_label_batch, num_objects_batch = \
                 next_batch(dataset_name=cfgs.DATASET_NAME,
                            batch_size=cfgs.BATCH_SIZE,
@@ -89,7 +90,7 @@ def train():
                             max_proposals_num=cfgs.MAX_PROPOSAL_NUM,
                             rpn_iou_positive_threshold=cfgs.RPN_IOU_POSITIVE_THRESHOLD,
                             rpn_iou_negative_threshold=cfgs.RPN_IOU_NEGATIVE_THRESHOLD,  # iou>=0.7 is positive box, iou< 0.3 is negative
-                            rpn_mini_batch_size=cfgs.RPN_MINIBATCH_SIZE,
+                            rpn_mini_batch_size=cfgs.RPN_MINIBATCH_SIZE,  # 256
                             rpn_positives_ratio=cfgs.RPN_POSITIVE_RATE,
                             remove_outside_anchors=False,  # whether remove anchors outside
                             rpn_weight_decay=cfgs.WEIGHT_DECAY[cfgs.NET_NAME])
@@ -112,7 +113,7 @@ def train():
         # *                                         Fast RCNN                                           *
         # ***********************************************************************************************
 
-        fast_rcnn = build_fast_rcnn.FastRCNN(feature_pyramid=rpn.feature_pyramid,
+        fast_rcnn = build_fast_rcnn.FastRCNN(feature_pyramid=rpn.feature_pyramid,  # FPN网络
                                              rpn_proposals_boxes=rpn_proposals_boxes,
                                              rpn_proposals_scores=rpn_proposals_scores,
                                              img_shape=tf.shape(img_batch),
@@ -133,7 +134,7 @@ def train():
                                              use_dropout=cfgs.USE_DROPOUT,
                                              weight_decay=cfgs.WEIGHT_DECAY[cfgs.NET_NAME],
                                              is_training=True,
-                                             level=cfgs.LEVEL,
+                                             level=cfgs.LEVEL,  # ['P2', 'P3', 'P4', 'P5', 'P6']
                                              head_quadrant=head_quadrant)
 
         fast_rcnn_decode_boxes, fast_rcnn_score, num_of_objects, detection_category, \
