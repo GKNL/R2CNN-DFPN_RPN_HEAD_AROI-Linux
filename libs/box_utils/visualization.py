@@ -8,6 +8,15 @@ import tensorflow as tf
 
 
 def roi_visualize(img, img_h, img_w, roi_box, rois):
+    """
+
+    :param img:
+    :param img_h:
+    :param img_w:
+    :param roi_box: positive_proposals
+    :param rois: positive_rois
+    :return:
+    """
     with tf.variable_scope('roi_visualize'):
         ymin, xmin, ymax, xmax = tf.unstack(roi_box, axis=1)
 
@@ -30,5 +39,5 @@ def roi_visualize(img, img_h, img_w, roi_box, rois):
 
         rois = tf.image.resize_bilinear(rois, size=[56, 56])
         rois_mean = tf.reduce_mean(rois, axis=3)
-        tf.summary.image('target', target[:, :, :, ::-1])
-        tf.summary.image('rois', tf.expand_dims(rois_mean, axis=3))
+        tf.summary.image('target', target[:, :, :, ::-1])  # 与ROI同size的原图（用于与ROI图进行对比观察）
+        tf.summary.image('rois', tf.expand_dims(rois_mean, axis=3))  # ROI图

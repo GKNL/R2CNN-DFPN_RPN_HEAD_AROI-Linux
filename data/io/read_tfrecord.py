@@ -90,7 +90,7 @@ def next_batch(dataset_name, batch_size, shortside_len, is_training):
     # 使用tf.train.string_input_producer函数把我们需要的全部文件打包为一个tf内部的queue类型，之后tf开文件就从这个queue中取目录了（要注意一点的是这个函数的shuffle参数默认是True）
     filename_queue = tf.train.string_input_producer(filename_tensorlist)
 
-    # 这里对图像进行处理与变换从而进行数据增强 ，返回的是文件名，坐标及标签，以及物体的个数。
+    # 这里对图像进行处理与变换从而进行数据增强 ，返回的是文件名，图片，坐标及标签，以及物体的个数。
     img_name, img, gtboxes_and_label, num_obs = read_and_prepocess_single_img(filename_queue, shortside_len,
                                                                               is_training=is_training)
     # 这里产生batch，队列最大等待数为100，多线程处理

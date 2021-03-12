@@ -140,7 +140,7 @@ class FastRCNN(object):
                 normalize_ymax = ymax / img_h
                 normalize_xmax = xmax / img_w
 
-                # 根据处理后的坐标，从特征金字塔上提取相对应的区域feature map，
+                # 根据处理后的坐标，从feature map上裁剪出相对应的区域，并resize为（14,14）
                 level_i_cropped_rois = tf.image.crop_and_resize(self.feature_pyramid['P%d' % i],
                                                                 boxes=tf.transpose(tf.stack([normalize_ymin, normalize_xmin,
                                                                                              normalize_ymax, normalize_xmax])),
@@ -280,7 +280,7 @@ class FastRCNN(object):
             positive_proposals = tf.gather(self.fast_rcnn_all_level_proposals, positive_indices)
             positive_rois = tf.gather(self.fast_rcnn_all_level_rois, positive_indices)
             img_h, img_w = tf.cast(self.img_shape[1], tf.float32), tf.cast(self.img_shape[2], tf.float32)
-            roi_visualize(self.img_batch, img_h, img_w, positive_proposals, positive_rois)
+            roi_visualize(self.img_batch, img_h, img_w, positive_proposals, positive_rois)  # roi可视化
 
             negative_indices = tf.reshape(tf.where(tf.equal(object_mask, 0.)), [-1])
             num_of_negatives = tf.minimum(tf.shape(negative_indices)[0],

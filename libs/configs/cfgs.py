@@ -14,7 +14,7 @@ INFERENCE_IMAGE_PATH = ROO_PATH + '/tools/inference_image'  # 测试输入图片
 INFERENCE_SAVE_PATH = ROO_PATH + '/tools/inference_result'  # 测试结果保存路径
 
 NET_NAME = 'resnet_v1_101'  # share net的name
-VERSION = 'v1_ship_head'
+VERSION = 'ship_head_2021_3_12'
 CLASS_NUM = 1  # exclude background
 LEVEL = ['P2', 'P3', 'P4', 'P5', 'P6']
 BASE_ANCHOR_SIZE_LIST = [32, 64, 128, 256, 512]  # P越高，RPN生成的anchor数越少，对应在原图中anchor的size也应该越大
@@ -30,7 +30,7 @@ BATCH_SIZE = 1
 WEIGHT_DECAY = {'vggnet16': 0.0005, 'resnet_v1_50': 0.0001, 'resnet_v1_101': 0.0001}
 EPSILON = 1e-5
 MOMENTUM = 0.9
-MAX_ITERATION = 40000
+MAX_ITERATION = 60000  # 40000
 GPU_GROUP = "0"
 
 # rpn

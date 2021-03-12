@@ -258,7 +258,7 @@ def train():
                     summary_writer.add_summary(summary_str, _global_step)
                     summary_writer.flush()
 
-                if (step > 0 and step % 5000 == 0) or (step == cfgs.MAX_ITERATION - 1):
+                if (step > 0 and step % 10000 == 0) or (step == cfgs.MAX_ITERATION - 1):
                     save_dir = os.path.join(FLAGS.trained_checkpoint, cfgs.VERSION)
                     tools.mkdir(save_dir)
 
