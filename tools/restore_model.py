@@ -19,11 +19,11 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 def get_restorer():
 
-    # 查找最新保存的checkpoint文件的文件名
+    # 查找最新保存的checkpoint文件（output文件夹下的权重文件夹）的文件名
     checkpoint_path = tf.train.latest_checkpoint(os.path.join(FLAGS.trained_checkpoint, cfgs.VERSION))
 
     if checkpoint_path != None:  # 如果之前训练过，有保存过模型，则从训练结果中加载模型或者部分变量
-        if RESTORE_FROM_RPN:
+        if RESTORE_FROM_RPN:  # 仅加载模型中的RPN权重
             print('___restore from rpn___')
             model_variables = slim.get_model_variables()
             restore_variables = [var for var in model_variables if not var.name.startswith('Fast_Rcnn')] + [slim.get_or_create_global_step()]

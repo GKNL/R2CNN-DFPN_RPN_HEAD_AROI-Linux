@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+"""
+输入大图片，测试训练好的模型
+"""
+
 from __future__ import division, print_function, absolute_import
 
 import sys
@@ -21,7 +25,7 @@ from help_utils.help_utils import *
 import argparse
 from libs.box_utils import nms_rotate
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 def chw2hwc(img):
@@ -376,7 +380,7 @@ def detect_img(file_paths, des_folder, det_th, h_len, w_len, h_overlap, w_overla
                 # imgW = ds.RasterXSize
                 imgH = img.shape[0]
                 imgW = img.shape[1]
-                for hh in range(0, imgH, h_len):
+                for hh in range(0, imgH, h_len):  # h_len : image height
                     h_size = min(h_len, imgH - hh - h_overlap)
                     if h_size < 10:
                         break

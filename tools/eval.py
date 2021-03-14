@@ -22,7 +22,7 @@ from libs.box_utils.boxes_utils import get_horizen_minAreaRectangle, get_head
 from libs.fast_rcnn import build_fast_rcnn
 from libs.box_utils import iou_rotate
 
-os.environ["CUDA_VISIBLE_DEVICES"] = '1'
+os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 
 
 def make_dict_packle(_gtboxes_and_label, _fast_rcnn_decode_boxes, _fast_rcnn_score, _detection_category):
@@ -70,6 +70,7 @@ def eval_ship(img_num, mode):
                                    Tout=tf.float32)
         head_quadrant = tf.reshape(head_quadrant, [-1, 1])
 
+        # 最小外接正矩形:[y_min, x_min, y_max, x_max, label]
         gtboxes_and_label_minAreaRectangle = get_horizen_minAreaRectangle(gtboxes_and_label)
 
         gtboxes_and_label_minAreaRectangle = tf.reshape(gtboxes_and_label_minAreaRectangle, [-1, 5])
@@ -163,7 +164,7 @@ def eval_ship(img_num, mode):
         with tf.Session(config=config) as sess:
             sess.run(init_op)
             if not restorer is None:
-                restorer.restore(sess, restore_ckpt)
+                restorer.restore(sess, restore_ckpt)  # 重载模型参数
                 print('restore model')
 
             coord = tf.train.Coordinator()
@@ -356,7 +357,7 @@ def eval(rboxes, gboxes, iou_th, use_07_metric, mode):
 if __name__ == '__main__':
     img_num = 100
     # 0: horizontal standard 1: rotate standard
-    mode = 0
+    mode = 1
     eval_ship(img_num, mode)
 
     fr1 = open('gtboxes_horizontal_dict.pkl', 'r')

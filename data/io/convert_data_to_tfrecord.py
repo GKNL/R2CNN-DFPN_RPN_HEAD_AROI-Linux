@@ -12,10 +12,10 @@ import cv2
 from libs.label_name_dict.label_dict import *
 from help_utils.tools import *
 
-tf.app.flags.DEFINE_string('VOC_dir', '/home/20184868@software.com/PM/pycharmProjects/R2CNN-DFPN_RPN_HEAD_AROI-Linux/data/VOCdevkit/VOCdevkit_train/', 'Voc dir')
+tf.app.flags.DEFINE_string('VOC_dir', '/home/20184868@software.com/PM/pycharmProjects/R2CNN-DFPN_RPN_HEAD_AROI-Linux/data/VOCdevkit/VOCdevkit_test/', 'Voc dir')
 tf.app.flags.DEFINE_string('xml_dir', 'Annotations', 'xml dir')
 tf.app.flags.DEFINE_string('image_dir', 'JPEGImages', 'image dir')
-tf.app.flags.DEFINE_string('save_name', 'train', 'save name')
+tf.app.flags.DEFINE_string('save_name', 'test', 'save name')
 tf.app.flags.DEFINE_string('save_dir', cfgs.ROO_PATH + '/data/tfrecords/', 'save name')
 tf.app.flags.DEFINE_string('img_format', '.jpg', 'format of image')
 tf.app.flags.DEFINE_string('dataset', 'ship', 'dataset')

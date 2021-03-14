@@ -1,4 +1,7 @@
 # -*- coding:utf-8 -*-
+"""
+在训练好的模型上，测试tfrecord中的所有图片，并输出测试结果
+"""
 
 from __future__ import absolute_import
 from __future__ import print_function
@@ -24,7 +27,7 @@ from libs.box_utils.boxes_utils import get_horizen_minAreaRectangle, get_head
 from libs.fast_rcnn import build_fast_rcnn
 
 
-os.environ["CUDA_VISIBLE_DEVICES"] = '1'
+os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 
 
 def test(img_num):
