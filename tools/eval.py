@@ -58,7 +58,7 @@ def eval_ship(img_num, mode):
             next_batch(dataset_name=cfgs.DATASET_NAME,
                        batch_size=cfgs.BATCH_SIZE,
                        shortside_len=cfgs.SHORT_SIDE_LEN,
-                       is_training=False)
+                       is_training=False)  # 改成True可以用train训练集的图片测试一下模型的mAP
 
         gtboxes_and_label, head = get_head(tf.squeeze(gtboxes_and_label_batch, 0))
         gtboxes_and_label = tf.py_func(back_forward_convert,
@@ -355,9 +355,9 @@ def eval(rboxes, gboxes, iou_th, use_07_metric, mode):
 
 
 if __name__ == '__main__':
-    img_num = 100
+    img_num = 68
     # 0: horizontal standard 1: rotate standard
-    mode = 1
+    mode = 1  # 0
     eval_ship(img_num, mode)
 
     fr1 = open('gtboxes_horizontal_dict.pkl', 'r')

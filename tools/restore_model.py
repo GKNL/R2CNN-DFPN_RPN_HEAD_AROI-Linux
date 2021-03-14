@@ -20,7 +20,8 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 def get_restorer():
 
     # 查找最新保存的checkpoint文件（output文件夹下的权重文件夹）的文件名
-    checkpoint_path = tf.train.latest_checkpoint(os.path.join(FLAGS.trained_checkpoint, cfgs.VERSION))
+    # checkpoint_path = tf.train.latest_checkpoint(os.path.join(FLAGS.trained_checkpoint, cfgs.VERSION))
+    checkpoint_path = "../output/res101_trained_weights/ship_head_2021_3_12/voc_20000model.ckpt"  # 测试使用
 
     if checkpoint_path != None:  # 如果之前训练过，有保存过模型，则从训练结果中加载模型或者部分变量
         if RESTORE_FROM_RPN:  # 仅加载模型中的RPN权重
